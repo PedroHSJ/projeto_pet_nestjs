@@ -10,6 +10,7 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
 import { PetModule } from './pet/pet.module';
+import { EstabelecimentoModule } from './estabelecimento/estabelecimento.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { PetModule } from './pet/pet.module';
         RoleModule,
         AuthModule,
         PetModule,
+        EstabelecimentoModule,
     ],
     controllers: [AppController],
     providers: [
