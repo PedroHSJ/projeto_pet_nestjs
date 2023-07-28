@@ -10,12 +10,13 @@ export class EstabelecimentoService {
         @InjectRepository(EstabelecimentoEntity)
         private estabelecimentoRepository: Repository<EstabelecimentoEntity>,
     ) {}
-
     async findAll(): Promise<EstabelecimentoEntity[]> {
         return this.estabelecimentoRepository.find();
     }
-
     async create(estabelecimento: EstabelecimentoDTO): Promise<{ id: string }> {
+        estabelecimento.nome = estabelecimento.nome
+            .toUpperCase()
+            .replace(/ /g, '');
         const estabelecimentoSalvo = await this.estabelecimentoRepository.save(
             this.estabelecimentoRepository.create(estabelecimento),
         );

@@ -7,9 +7,10 @@ import { ErrorInterceptor } from 'src/interceptor/error.interceptor';
 import { UsuarioController } from './usuario.controller';
 import { UsuarioService } from './usuario.service';
 import path from 'path';
+import { RoleEntity } from 'src/entities/role.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([UsuarioEntity])],
+    imports: [TypeOrmModule.forFeature([UsuarioEntity, RoleEntity])],
     controllers: [UsuarioController],
     providers: [UsuarioService],
 })

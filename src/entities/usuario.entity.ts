@@ -15,6 +15,8 @@ import { BaseEntity } from './base.entity';
 import { EstabelecimentoEntity } from './estabelecimento.entity';
 import { Exclude, Expose } from 'class-transformer';
 import { PetEntity } from './pet.entity';
+import { Role } from 'src/enums/role.enum';
+import { RoleDTO } from 'src/dto/role.dto';
 
 @Entity('usuarios')
 export class UsuarioEntity implements BaseEntity {
@@ -36,26 +38,16 @@ export class UsuarioEntity implements BaseEntity {
     @Column({ type: 'varchar', length: 255 })
     email: string;
 
-    @ManyToMany(() => RoleEntity, (role) => role.usuarios)
-    @JoinTable({
-        name: 'usuarios_roles',
-        joinColumn: {
-            name: 'usuario_id',
-            referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-            name: 'role_id',
-            referencedColumnName: 'id',
-        },
-    })
-    roles: RoleEntity[];
-
     @Column({ type: 'bit', default: 1 })
     ativo: number;
 
     @ManyToOne(() => EstabelecimentoEntity, { nullable: true })
     estabelecimento: EstabelecimentoEntity;
 
-    @OneToMany(() => PetEntity, (pet) => pet.usuario)
-    pets: PetEntity[];
+    @ManyToOne(() => RoleEntity, (role) => role.usuarios)
+    @JoinColumn({ name: 'role_id' })
+    role: RoleEntity;
+
+    // @OneToMany(() => PetEntity, (pet) => pet.usuario)
+    // pets: PetEntity[];
 }

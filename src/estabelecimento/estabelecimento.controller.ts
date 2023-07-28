@@ -3,7 +3,9 @@ import { EstabelecimentoEntity } from 'src/entities/estabelecimento.entity';
 import { EstabelecimentoService } from './estabelecimento.service';
 import { ApiResponseInterface } from 'src/interfaces/apiResponse.interface';
 import { EstabelecimentoDTO } from 'src/dto/estabelecimento.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Estabelecimento')
 @Controller('estabelecimento')
 export class EstabelecimentoController {
     constructor(private estabelecimentoService: EstabelecimentoService) {}

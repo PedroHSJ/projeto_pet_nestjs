@@ -30,6 +30,6 @@ export class PetEntity implements BaseEntity {
     @Column({ type: 'timestamp' })
     data_nascimento: Date;
 
-    @ManyToOne(() => UsuarioEntity, (usuario) => usuario.pets)
-    usuario: UsuarioEntity;
+    // @ManyToOne(() => UsuarioEntity, (usuario) => usuario.pets)
+    // usuario: UsuarioEntity;
 }

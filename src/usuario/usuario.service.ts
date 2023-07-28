@@ -5,19 +5,22 @@ import { hash } from 'bcrypt';
 import { UsuarioDTO } from 'src/dto/usuario.dto';
 import { UsuarioEntity } from 'src/entities/usuario.entity';
 import { Repository } from 'typeorm';
+import { RoleEntity } from 'src/entities/role.entity';
 
 @Injectable()
 export class UsuarioService {
     constructor(
         @InjectRepository(UsuarioEntity)
         private usuarioRepository: Repository<UsuarioEntity>,
+        @InjectRepository(RoleEntity)
+        private roleRepository: Repository<RoleEntity>,
     ) {}
 
     async findAll(): Promise<UsuarioEntity[]> {
         const usuarios = await this.usuarioRepository
             .createQueryBuilder('usuario')
             .leftJoinAndSelect('usuario.estabelecimento', 'estabelecimento')
-            .leftJoinAndSelect('usuario.roles', 'roles')
+            .leftJoinAndSelect('usuario.role', 'role')
             .getMany();
 
         return usuarios;
@@ -36,9 +39,16 @@ export class UsuarioService {
         if (usuarioExiste)
             throw new BadRequestException('Nome de usuário já existe');
         usuario.password = await hash(usuario.password, 10);
-        const usuarioCriado = await this.usuarioRepository.save(
-            this.usuarioRepository.create(usuario),
-        );
+
+        const role = await this.roleRepository.findOneBy({
+            nome: usuario.role.nome,
+        });
+
+        if (!role) throw new BadRequestException('Role não existe');
+
+        const usuarioEntity = this.usuarioRepository.create(usuario);
+        usuarioEntity.role = role;
+        const usuarioCriado = await this.usuarioRepository.save(usuarioEntity);
         return { id: usuarioCriado.id };
     }
 }

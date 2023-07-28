@@ -5,6 +5,7 @@ import {
     HttpException,
     HttpStatus,
 } from '@nestjs/common';
+import { QueryFailedError } from 'typeorm';
 import * as Yup from 'yup';
 @Catch()
 export class ErrorInterceptor implements ExceptionFilter {
@@ -30,6 +31,10 @@ export class ErrorInterceptor implements ExceptionFilter {
             return response
                 .status(400)
                 .json({ message: 'Erro de validação.', errors });
+        }
+        if (exception instanceof QueryFailedError) {
+            status = HttpStatus.BAD_REQUEST;
+            message = exception.message;
         }
 
         response.status(status).json({

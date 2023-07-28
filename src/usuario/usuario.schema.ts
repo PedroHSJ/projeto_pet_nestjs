@@ -1,3 +1,4 @@
+import { Role } from 'src/enums/role.enum';
 import * as yup from 'yup';
 
 export const UsuarioSchema = yup.object().shape({
@@ -10,15 +11,10 @@ export const UsuarioSchema = yup.object().shape({
             id: yup.string().required().uuid(),
         })
         .required(),
-    roles: yup
-        .array()
-        .of(
-            yup
-                .object()
-                .shape({
-                    id: yup.string().required().uuid(),
-                })
-                .required(),
-        )
+    role: yup
+        .object()
+        .shape({
+            nome: yup.string().oneOf(Object.values(Role)).required(),
+        })
         .required(),
 });
