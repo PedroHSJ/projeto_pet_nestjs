@@ -4,13 +4,13 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from './config/config';
 import { ConfigModule } from '@nestjs/config';
-import { UsuarioModule } from './usuario/usuario.module';
 import { APP_FILTER } from '@nestjs/core';
-import { ErrorInterceptor } from './interceptor/error.interceptor';
-import { RoleModule } from './role/role.module';
-import { AuthModule } from './auth/auth.module';
-import { PetModule } from './pet/pet.module';
-import { EstabelecimentoModule } from './estabelecimento/estabelecimento.module';
+import { ErrorInterceptor } from './app/interceptor/error.interceptor';
+import { EmployeModule } from './modules/employe/employe.module';
+import { RoleModule } from './modules/role/role.module';
+import { EstablishmentModule } from './modules/establishment/establishment.module';
+import { ClientModule } from './modules/client/client.module';
+import { PetModule } from './modules/pet/pet.module';
 
 @Module({
     imports: [
@@ -29,11 +29,11 @@ import { EstabelecimentoModule } from './estabelecimento/estabelecimento.module'
             ],
             synchronize: true,
         }),
-        UsuarioModule,
-        RoleModule,
-        AuthModule,
+        ClientModule,
         PetModule,
-        EstabelecimentoModule,
+        EmployeModule,
+        RoleModule,
+        EstablishmentModule,
     ],
     controllers: [AppController],
     providers: [
